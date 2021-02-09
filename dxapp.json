@@ -1,5 +1,5 @@
 {
-  "name": "fqRename",
+  "name": "fqRename_v1.0.0",
   "title": "FastQ Renaming Applet",
   "summary": "Renames FastQ files to make them usable downstream",
   "dxapi": "1.0.0",
