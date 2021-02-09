@@ -20,25 +20,29 @@ main() {
 
 
     for i in 1 2; 
+       
        do for sample in *"${i}".fq.gz; 
             
             do if test -f "$sample";
-                then
-                    echo 'File to be renamed ' "${sample}"; 
-                    
-                    # Using copy instead of mv to rename the file and keep the original
-                    cp  "$sample"  "${sample%.${i}.fq.gz}"_S99_L999_R${i}_001.fastq.gz;
-                    
-                    # Checks that file and renamed file are the same
-                    if cmp -s "$sample" "${sample%.${i}.fq.gz}_S99_L999_R${i}_001.fastq.gz";
-                        # If successful, it moves into output to be uploaded
-                        then mv ${sample%.${i}.fq.gz}_S99_L999_R${i}_001.fastq.gz /home/dnanexus/out/renamed_fastqs;
-                        
-                        else exit 1;
-                    fi;
+            then
+                echo 'File to be renamed ' "${sample}"; 
+                
+                # Using copy instead of mv to rename the file and keep the original
+                cp  "$sample"  "${sample%.${i}.fq.gz}"_S99_L999_R${i}_001.fastq.gz;
+                
+                # Checks that file and renamed file are the same
+                if cmp -s "$sample" "${sample%.${i}.fq.gz}_S99_L999_R${i}_001.fastq.gz";
+                # If successful, it moves into output to be uploaded
+                then 
+                    mv ${sample%.${i}.fq.gz}_S99_L999_R${i}_001.fastq.gz /home/dnanexus/out/renamed_fastqs;
+
+                # If unsuccessful prompts app to fail
+                else
+                    exit 1;
+                fi;
             
-            else echo No R "${i}" files to be renamed ;
-            
+            else 
+                echo No R "${i}" files to be renamed ;
             fi
         done ;
     done
